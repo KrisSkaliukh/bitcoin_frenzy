@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300&display=swap');
+
+.header {
+  background-color: rgb(67, 72, 160);
+  height: 75px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.text {
+  display: flex;
+  font: 20px 'Lato', sans-serif;
+  color: rgb(224, 225, 233);
+  margin: 0;
+  align-self: center;
+}
+
+.origin {
+  font-size: 16px;
+}
+
+.headerLogo {
+  height: 50px;
+  align-self: center;
+}
+
+.logoAndTitle {
+  width: 250px;
+  display: inline-flex;
+  justify-content: space-around;
+}

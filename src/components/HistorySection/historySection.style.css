@@ -1,0 +1,7 @@
+.history {
+  height: 894px;
+  width: 300px;
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgb(212, 211, 209);
+}
