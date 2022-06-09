@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Source+Sans+Pro:wght@300;400&display=swap');
+
+.walletWrap {
+  width: 200px;
+  height: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-self: center;
+
+}
+
+.walletBtn {
+  height: 30px;
+  width: 120px;
+  color: aliceblue;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+  background-color: rgb(67, 72, 160);
+  border-radius: 7px;
+  border: solid rgb(67, 72, 160);
+}
+
+.walletText {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: normal;
+  font-size: 20px;
+  color: rgb(48, 52, 127);
+  text-align: center;
+  margin: 0;
+}
+
+.styled {
+  margin-bottom: 20px;
+}

@@ -1,0 +1,25 @@
+.history {
+  height: 800px;
+  width: 300px;
+  display: flex;
+  background-color: rgb(212, 211, 209);
+  flex-direction: column;
+}
+
+.line {
+  background-color: rgb(160, 160, 160);
+  height: 1px;
+}
+
+.date {
+  font-size: 11px;
+  margin-left: 5px;
+  color: rgb(37, 42, 146);
+}
+
+.infoText {
+  font-size: 14px;
+  margin-left: 30px;
+  margin-bottom: 30px;
+  color: rgb(37, 42, 146);
+}
