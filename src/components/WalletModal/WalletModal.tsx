@@ -23,7 +23,6 @@ export default function WalletModal() {
     dispatch(changeModalType(''));
   };
 
-
   return (
     <>
       <Modal
