@@ -1,18 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export type ModalType = '' | 'deposit' | 'withdraw'
 export interface BitcoinState {
   userMoney: number,
   userBitcoins: number,
   bitcoinPrice: number,
-  isModalOpen: boolean,
-  modalType: string
+  modalType: ModalType
 };
 
 const initialState: BitcoinState = {
   userMoney: 200,
   userBitcoins: 7,
   bitcoinPrice: 1000,
-  isModalOpen: false,
   modalType: ''
 };
 
@@ -20,10 +19,7 @@ export const bitcoinSlice = createSlice({
   name: 'bitcoins',
   initialState, 
   reducers: {
-    openModal: (state, action: PayloadAction<boolean>) => {
-      state.isModalOpen = action.payload
-    },
-    changeModalType: (state, action: PayloadAction<string>) => {
+    changeModalType: (state, action: PayloadAction<ModalType>) => {
       state.modalType = action.payload
     },
     deposit: (state, action: PayloadAction<number>) => {
@@ -37,5 +33,5 @@ export const bitcoinSlice = createSlice({
   }
 });
 
-export const { deposit, withdraw, openModal, changeModalType } = bitcoinSlice.actions;
+export const { deposit, withdraw, changeModalType } = bitcoinSlice.actions;
 export default bitcoinSlice.reducer;

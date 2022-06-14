@@ -8,26 +8,26 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { deposit, openModal, withdraw } from '../../redux/bitcoinSlice';
+import { changeModalType, deposit, withdraw } from '../../redux/bitcoinSlice';
 
 import './walletModal.style.css';
 
-export interface WalletModalValues { money: number };
+const INITIAL_VALUES = { money: 100 };
 
 export default function WalletModal() {
   const dispatch = useDispatch();
-  const { isModalOpen, modalType } = useSelector((state: RootState) => state.bitcoins);
+  
+  const { modalType } = useSelector((state: RootState) => state.bitcoins);
 
   const closeModal = () => {
-    dispatch(openModal(false));
+    dispatch(changeModalType(''));
   };
 
-  const initialValues: WalletModalValues = { money: 100 };
 
   return (
     <>
       <Modal
-        open={isModalOpen}
+        open={modalType !== ''}
         onClose={closeModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -38,14 +38,14 @@ export default function WalletModal() {
           : <Typography variant='h4'>Withdraw Money</Typography>
           }
           <Formik
-            initialValues={initialValues}
+            initialValues={INITIAL_VALUES}
             onSubmit={(values) => {
               if(modalType === 'deposit'){
                 dispatch(deposit(Number(values.money)));
               } else{
                 dispatch(withdraw(Number(values.money)));
               }
-              closeModal();
+              dispatch(changeModalType(''));
             }}
           >
           <Form>
