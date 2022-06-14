@@ -8,3 +8,10 @@
   border: 2px solid #000;
   box-shadow: 24;
 }
+
+.moneyField {
+  width: 90%;
+  height: 25px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

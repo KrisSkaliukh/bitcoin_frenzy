@@ -5,6 +5,7 @@ export interface BitcoinState {
   userBitcoins: number,
   bitcoinPrice: number,
   isModalOpen: boolean,
+  modalType: string
 };
 
 const initialState: BitcoinState = {
@@ -12,6 +13,7 @@ const initialState: BitcoinState = {
   userBitcoins: 7,
   bitcoinPrice: 1000,
   isModalOpen: false,
+  modalType: ''
 };
 
 export const bitcoinSlice = createSlice({
@@ -21,16 +23,19 @@ export const bitcoinSlice = createSlice({
     openModal: (state, action: PayloadAction<boolean>) => {
       state.isModalOpen = action.payload
     },
-    deposit: (state) => {
-      state.userMoney += 100
+    changeModalType: (state, action: PayloadAction<string>) => {
+      state.modalType = action.payload
     },
-    withdraw: (state) => {
+    deposit: (state, action: PayloadAction<number>) => {
+      state.userMoney += action.payload
+    },
+    withdraw: (state, action: PayloadAction<number> ) => {
       if(state.userMoney > 0){
-        state.userMoney -= 100
+        state.userMoney -= action.payload
       }
     },
   }
 });
 
-export const { deposit, withdraw, openModal } = bitcoinSlice.actions;
+export const { deposit, withdraw, openModal, changeModalType } = bitcoinSlice.actions;
 export default bitcoinSlice.reducer;

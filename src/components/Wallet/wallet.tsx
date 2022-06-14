@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { openModal, withdraw } from '../../redux/bitcoinSlice';
+import { openModal, changeModalType } from '../../redux/bitcoinSlice';
 import { RootState } from '../../redux/store';
 import WalletModal from '../WalletModal/WalletModal';
 
@@ -10,14 +10,18 @@ import './wallet.style.css';
 export default function Wallet() {
   const dispatch = useDispatch();
 
-  const userBitcoins = useSelector((state: RootState) => state.bitcoins.userBitcoins);;
+  const userBitcoins = useSelector((state: RootState) => state.bitcoins.userBitcoins);
 
   const depositMoney = () => {
+    const type: string = 'deposit';
+    dispatch(changeModalType(type));
     dispatch(openModal(true));
   };
 
   const withdrawMoney = () => {
-    dispatch(withdraw());
+    const type: string = 'withdraw';
+    dispatch(changeModalType(type));
+    dispatch(openModal(true));
   };
 
 
