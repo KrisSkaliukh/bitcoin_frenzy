@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useMemo} from 'react';
 import { useSelector } from 'react-redux'; 
 import { RootState } from '../../redux/store';
 
@@ -8,7 +8,7 @@ import './header.style.css'
 
 export default function Header() {
   const { userMoney, userBitcoins, bitcoinPrice } = useSelector((state: RootState) => state.bitcoins);
-  const price = new Intl.NumberFormat('en').format(bitcoinPrice);
+  const price = useMemo(() => new Intl.NumberFormat('en').format(bitcoinPrice), [bitcoinPrice] ) ;
   
   return(
     <div className='header'>

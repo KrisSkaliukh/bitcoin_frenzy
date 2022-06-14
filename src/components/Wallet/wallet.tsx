@@ -1,18 +1,33 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { changeModalType } from '../../redux/bitcoinSlice';
 import { RootState } from '../../redux/store';
+import WalletModal from '../WalletModal/WalletModal';
 
 import './wallet.style.css';
 
-export default function MyWallet() {
-  const userBitcoins = useSelector((state: RootState) => state.bitcoins.userBitcoins);;
+export default function Wallet() {
+  const dispatch = useDispatch();
+
+  const userBitcoins = useSelector((state: RootState) => state.bitcoins.userBitcoins);
+
+  const depositMoney = () => {
+    dispatch(changeModalType('deposit'));
+  };
+
+  const withdrawMoney = () => {
+    dispatch(changeModalType('withdraw'));
+  };
+
 
   return(
     <div className='walletWrap'>
       <p className='walletText'>Your Bitcoin wallet </p> 
       <p className='walletText styled'>You now own {userBitcoins} Bitcoins</p>
-      <button className='walletBtn'>Deposit 100$</button>
-      <button className='walletBtn'>Withdraw 100$</button>
+      <button onClick={depositMoney} className='walletBtn'>Deposit 100$</button>
+      <button onClick={withdrawMoney} className='walletBtn'>Withdraw 100$</button>
+      <WalletModal />
     </div>
   );
 };
