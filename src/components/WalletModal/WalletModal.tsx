@@ -28,8 +28,6 @@ export default function WalletModal() {
       <Modal
         open={modalType !== ''}
         onClose={closeModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
         <Box className='boxModal'>
           {modalType === 'deposit' 

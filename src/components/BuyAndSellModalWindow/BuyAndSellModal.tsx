@@ -8,7 +8,7 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { buyBitcoin, changeModalTypeBitcoins, sellBitcoin } from '../../redux/bitcoinSlice';
+import { buyBitcoin, changeModalTypeBitcoins, deposit, sellBitcoin, withdraw } from '../../redux/bitcoinSlice';
 
 import './buyAndSellModal.style.css';
 
@@ -17,46 +17,49 @@ const INITIAL_VALUES = { bitcoin: 1 };
 export default function BuyAnsSellModal() {
   const dispatch = useDispatch();
   
-  const { modalTypeBitcoins,  } = useSelector((state: RootState) => state.bitcoins);
+  const { modalTypeBitcoins, bitcoinPrice, userMoney  } = useSelector((state: RootState) => state.bitcoins);
 
   const closeModal = () => {
     dispatch(changeModalTypeBitcoins(''));
   };
+
+  const validate = () => {
+    let error;
+    if (userMoney < bitcoinPrice) {
+      error = 'You don`t have enough money to buy bitcoins';
+    };
+    console.log(error);
+  }
 
   return (
     <>
       <Modal
         open={modalTypeBitcoins !== ''}
         onClose={closeModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
         <Box className='boxModal'>
-          {modalTypeBitcoins === 'buyBitcoin' 
-          ? <Typography variant='h4'>Buy Bitcoins</Typography>
-          : <Typography variant='h4'>Sell Bitcoins</Typography>
-          }
+          <Typography variant='h4'> {modalTypeBitcoins === 'buyBitcoin' ? 'Buy' : 'Sell'} Bitcoins</Typography>
           <Formik
             initialValues={INITIAL_VALUES}
-            onSubmit={(values) => {
+            onSubmit= {(values) => {
               if(modalTypeBitcoins === 'buyBitcoin'){
-
                 dispatch(buyBitcoin(Number(values.bitcoin)));
+                dispatch(withdraw(bitcoinPrice*values.bitcoin));
               } else{
+                dispatch(deposit(bitcoinPrice*values.bitcoin));
                 dispatch(sellBitcoin(Number(values.bitcoin)));
               }
               dispatch(changeModalTypeBitcoins(''));
             }}
+            validate={validate}
           >
           <Form>
             <Field
               id="bitcoin" 
               name="bitcoin" 
-              label="bitcoin"
               type="number"
               min="1"
               max="1000"
-              placeholder="Enter bitcoin count"
               className="bitcoinField"
             />
             <Button className="submitBtn" type="submit" color="primary" variant="contained" fullWidth>

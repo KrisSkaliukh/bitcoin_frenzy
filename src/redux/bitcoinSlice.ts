@@ -38,7 +38,7 @@ export const bitcoinSlice = createSlice({
       }
     },
     buyBitcoin: (state, action: PayloadAction<number>) => {
-      state.userBitcoins += action.payload
+        state.userBitcoins += action.payload
     },
     sellBitcoin: (state, action: PayloadAction<number>) => {
       if(state.userBitcoins > 0 && state.userBitcoins >= action.payload){
