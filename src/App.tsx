@@ -18,6 +18,7 @@ export default function App() {
       <div className='main'>
       <Menu />
       <Routes>
+        <Route path='/' element={<MyWalletPage />}/>
         <Route path='/wallet' element={<MyWalletPage />}/>
         <Route path='/buy' element={<BuyBitcoinPage />}/>
         <Route path='/sell' element={<SellBitcoinPage />}/>
