@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeModalTypeBitcoins, setError } from '../../redux/bitcoinSlice';
+import { changeModalTypeBitcoins } from '../../redux/bitcoinSlice';
 
 import { RootState } from '../../redux/store';
 
@@ -14,7 +14,6 @@ export default function BuyBitcoin() {
   
   const buyBitcoin = () => {
     dispatch(changeModalTypeBitcoins('buyBitcoin'));
-    dispatch(setError(''));
   };
 
   return(

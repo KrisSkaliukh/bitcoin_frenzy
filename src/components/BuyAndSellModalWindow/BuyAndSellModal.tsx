@@ -8,22 +8,23 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { buyBitcoin, changeModalTypeBitcoins, deposit, sellBitcoin, setError, withdraw } from '../../redux/bitcoinSlice';
+import { buyBitcoin, changeModalTypeBitcoins, deposit, sellBitcoin, withdraw } from '../../redux/bitcoinSlice';
 
 import './buyAndSellModal.style.css';
 
 const INITIAL_VALUES = { bitcoin: 1 };
 
 export default function BuyAnsSellModal() {
+  const [error, setError] = React.useState('');
   const dispatch = useDispatch();
   
-  const { modalTypeBitcoins, bitcoinPrice, userMoney, error, userBitcoins } = useSelector((state: RootState) => state.bitcoins);
+  const { modalTypeBitcoins, bitcoinPrice, userMoney, userBitcoins } = useSelector((state: RootState) => state.bitcoins);
   const closeModal = () => {
+    setError('');
     dispatch(changeModalTypeBitcoins(''));
   };
 
   return (
-    <>
       <Modal
         open={modalTypeBitcoins !== ''}
         onClose={closeModal}
@@ -32,22 +33,22 @@ export default function BuyAnsSellModal() {
           <Typography variant='h4'> {modalTypeBitcoins === 'buyBitcoin' ? 'Buy' : 'Sell'} Bitcoins</Typography>
           <Formik
             initialValues={INITIAL_VALUES}
-            onSubmit= {(values) => {
+            onSubmit= {(values: { bitcoin: number }) => {
               if(modalTypeBitcoins === 'buyBitcoin'){
                 if(userMoney < bitcoinPrice){
-                  dispatch(setError('not money'));
+                  setError('you don`t have enough money')
                 } else{
-                  dispatch(buyBitcoin(Number(values.bitcoin)));
+                  dispatch(buyBitcoin(values.bitcoin));
                   dispatch(withdraw(bitcoinPrice*values.bitcoin));
-                  dispatch(changeModalTypeBitcoins(''));
+                  closeModal();
                 }
               } else{
                   if(userBitcoins < values.bitcoin){
-                    dispatch(setError('not bitcoins'));
+                    setError('you don`t have enough bitcoins')
                   } else {
-                    dispatch(sellBitcoin(Number(values.bitcoin)));
+                    dispatch(sellBitcoin(values.bitcoin));
                     dispatch(deposit(bitcoinPrice*values.bitcoin));
-                    dispatch(changeModalTypeBitcoins(''));
+                    closeModal();
                   }
               }
             }}
@@ -61,9 +62,7 @@ export default function BuyAnsSellModal() {
               max="1000"
               className="bitcoinField"
             />
-            {error === 'not money' && modalTypeBitcoins === 'buyBitcoin' && <p className='error'>you don`t have enough money</p>}
-            {error === 'not bitcoins' && modalTypeBitcoins === 'sellBitcoins' && <p className='error'>you don`t have bitcoins</p>}
-
+            {!!error && <p className='error'>{error}</p>}
             <Button className="submitBtn" type="submit" color="primary" variant="contained" fullWidth>
             {modalTypeBitcoins === 'buyBitcoin' ? 'Buy' : 'Sell' }
             </Button>            
@@ -71,6 +70,5 @@ export default function BuyAnsSellModal() {
           </Formik>
         </Box>
       </Modal>
-    </>
   );
 }

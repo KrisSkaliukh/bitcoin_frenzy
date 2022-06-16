@@ -8,18 +8,20 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { changeModalType, deposit, setError, withdraw } from '../../redux/bitcoinSlice';
+import { changeModalType, deposit, withdraw } from '../../redux/bitcoinSlice';
 
 import './walletModal.style.css';
 
 const INITIAL_VALUES = { money: 100 };
 
 export default function WalletModal() {
+  const [error, setError] = React.useState('')
   const dispatch = useDispatch();
   
-  const { modalType, userMoney, error } = useSelector((state: RootState) => state.bitcoins);
+  const { modalType, userMoney } = useSelector((state: RootState) => state.bitcoins);
 
   const closeModal = () => {
+    setError('');
     dispatch(changeModalType(''));
   };
 
@@ -39,13 +41,13 @@ export default function WalletModal() {
             onSubmit={(values) => {
               if(modalType === 'deposit'){
                 dispatch(deposit(Number(values.money)));
-                dispatch(changeModalType(''));
+                closeModal();
               } else{
                   if(userMoney >= values.money){
                   dispatch(withdraw(Number(values.money)));
-                  dispatch(changeModalType(''));
+                  closeModal();
                 } else {
-                  dispatch(setError('not money'))
+                  setError('you don`t nave money');
                 }
               }
             }}
@@ -61,7 +63,7 @@ export default function WalletModal() {
               placeholder="Enter amount"
               className="moneyField"
             />
-            {error === 'not money' && <p className='error'>you can`t withdraw money</p>}
+            {!!error && <p className='error'>{error}</p>}
             <Button className="submitBtn" type="submit" color="primary" variant="contained" fullWidth>
             {modalType === 'deposit' ? 'Deposit' : 'Withdraw' }
             </Button>            
