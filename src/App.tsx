@@ -8,6 +8,7 @@ import BitcoinPricePage from './pages/BitcoinPricePage';
 import BuyBitcoinPage from './pages/BuyBitcoinPage';
 import MyWalletPage from './pages/MyWalletPage';
 import SellBitcoinPage from './pages/SellBitcoinPage';
+import BuyAnsSellModal from './components/BuyAndSellModalWindow/BuyAndSellModal';
 
 import './App.css';
 
@@ -18,6 +19,7 @@ export default function App() {
       <div className='main'>
       <Menu />
       <Routes>
+        <Route path='/' element={<MyWalletPage />}/>
         <Route path='/wallet' element={<MyWalletPage />}/>
         <Route path='/buy' element={<BuyBitcoinPage />}/>
         <Route path='/sell' element={<SellBitcoinPage />}/>
@@ -25,6 +27,7 @@ export default function App() {
       </Routes>
       <HistorySection />
       </div>
+      <BuyAnsSellModal />
     </BrowserRouter>
   );
 }

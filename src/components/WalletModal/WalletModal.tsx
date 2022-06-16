@@ -15,22 +15,21 @@ import './walletModal.style.css';
 const INITIAL_VALUES = { money: 100 };
 
 export default function WalletModal() {
+  const [error, setError] = React.useState('')
   const dispatch = useDispatch();
   
-  const { modalType } = useSelector((state: RootState) => state.bitcoins);
+  const { modalType, userMoney } = useSelector((state: RootState) => state.bitcoins);
 
   const closeModal = () => {
+    setError('');
     dispatch(changeModalType(''));
   };
-
 
   return (
     <>
       <Modal
         open={modalType !== ''}
         onClose={closeModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
         <Box className='boxModal'>
           {modalType === 'deposit' 
@@ -42,10 +41,15 @@ export default function WalletModal() {
             onSubmit={(values) => {
               if(modalType === 'deposit'){
                 dispatch(deposit(Number(values.money)));
+                closeModal();
               } else{
-                dispatch(withdraw(Number(values.money)));
+                  if(userMoney >= values.money){
+                  dispatch(withdraw(Number(values.money)));
+                  closeModal();
+                } else {
+                  setError('you don`t nave money');
+                }
               }
-              dispatch(changeModalType(''));
             }}
           >
           <Form>
@@ -59,6 +63,7 @@ export default function WalletModal() {
               placeholder="Enter amount"
               className="moneyField"
             />
+            {!!error && <p className='error'>{error}</p>}
             <Button className="submitBtn" type="submit" color="primary" variant="contained" fullWidth>
             {modalType === 'deposit' ? 'Deposit' : 'Withdraw' }
             </Button>            

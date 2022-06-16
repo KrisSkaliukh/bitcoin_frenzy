@@ -9,11 +9,12 @@
   box-shadow: 24;
 }
 
-.moneyField {
+.bitcoinField {
   width: 90%;
   height: 25px;
   margin-top: 10px;
 }
+
 
 .error {
   color: red;
