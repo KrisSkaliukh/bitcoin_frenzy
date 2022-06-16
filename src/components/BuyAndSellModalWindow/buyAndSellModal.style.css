@@ -13,5 +13,11 @@
   width: 90%;
   height: 25px;
   margin-top: 10px;
-  margin-bottom: 20px;
+}
+
+
+.error {
+  color: red;
+  font-size: 10px;
+  margin-top: 0;
 }

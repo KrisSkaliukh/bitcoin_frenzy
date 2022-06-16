@@ -17,18 +17,19 @@ const INITIAL_VALUES = { bitcoin: 1 };
 export default function BuyAnsSellModal() {
   const dispatch = useDispatch();
   
-  const { modalTypeBitcoins, bitcoinPrice, userMoney  } = useSelector((state: RootState) => state.bitcoins);
+  const { modalTypeBitcoins, bitcoinPrice, userMoney, userBitcoins  } = useSelector((state: RootState) => state.bitcoins);
 
   const closeModal = () => {
     dispatch(changeModalTypeBitcoins(''));
   };
 
-  const validate = () => {
-    let error;
-    if (userMoney < bitcoinPrice) {
-      error = 'You don`t have enough money to buy bitcoins';
-    };
-    console.log(error);
+    
+  let error;
+  if(userMoney < bitcoinPrice){
+    error = 'not money';
+  }
+  if(userBitcoins <= 0){
+    error = 'not bicoins';
   }
 
   return (
@@ -51,7 +52,6 @@ export default function BuyAnsSellModal() {
               }
               dispatch(changeModalTypeBitcoins(''));
             }}
-            validate={validate}
           >
           <Form>
             <Field
@@ -62,6 +62,9 @@ export default function BuyAnsSellModal() {
               max="1000"
               className="bitcoinField"
             />
+            {error === 'not money' && modalTypeBitcoins === 'buyBitcoin' && <p className='error'>you don`t have enough money</p>}
+            {error === 'not bicoins' && modalTypeBitcoins === 'sellBitcoins' && <p className='error'>you don`t have bitcoins</p>}
+
             <Button className="submitBtn" type="submit" color="primary" variant="contained" fullWidth>
             {modalTypeBitcoins === 'buyBitcoin' ? 'Buy' : 'Sell' }
             </Button>            
