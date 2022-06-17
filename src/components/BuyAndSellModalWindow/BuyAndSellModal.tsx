@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 
@@ -8,21 +8,44 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { buyBitcoin, changeModalTypeBitcoins, deposit, sellBitcoin, withdraw } from '../../redux/bitcoinSlice';
+import { buyBitcoin, changeModalTypeBitcoins, deposit, sellBitcoin, setHistory, withdraw } from '../../redux/bitcoinSlice';
 
 import './buyAndSellModal.style.css';
 
 const INITIAL_VALUES = { bitcoin: 1 };
 
 export default function BuyAnsSellModal() {
-  const [error, setError] = React.useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   
   const { modalTypeBitcoins, bitcoinPrice, userMoney, userBitcoins } = useSelector((state: RootState) => state.bitcoins);
-  const closeModal = () => {
+
+  const closeModal = useCallback(() => {
     setError('');
     dispatch(changeModalTypeBitcoins(''));
-  };
+  }, [dispatch]);
+
+  const buyAndSell = useCallback((values: { bitcoin: number }) =>{
+    if(modalTypeBitcoins === 'buyBitcoin'){
+      if(userMoney < bitcoinPrice){
+        setError('you don`t have enough money')
+      } else{
+        dispatch(buyBitcoin(values.bitcoin));
+        dispatch(withdraw(bitcoinPrice*values.bitcoin));
+        dispatch(setHistory(`Purchased ${values.bitcoin} Bitcoin`));
+        closeModal();
+      }
+    } else{
+        if(userBitcoins < values.bitcoin){
+          setError('you don`t have enough bitcoins')
+        } else {
+          dispatch(sellBitcoin(values.bitcoin));
+          dispatch(deposit(bitcoinPrice*values.bitcoin));
+          dispatch(setHistory(`Sold ${values.bitcoin} Bitcoin`));
+          closeModal();
+        }
+    }
+  }, [bitcoinPrice, closeModal, dispatch, modalTypeBitcoins, userBitcoins, userMoney]);
 
   return (
       <Modal
@@ -33,25 +56,7 @@ export default function BuyAnsSellModal() {
           <Typography variant='h4'> {modalTypeBitcoins === 'buyBitcoin' ? 'Buy' : 'Sell'} Bitcoins</Typography>
           <Formik
             initialValues={INITIAL_VALUES}
-            onSubmit= {(values: { bitcoin: number }) => {
-              if(modalTypeBitcoins === 'buyBitcoin'){
-                if(userMoney < bitcoinPrice){
-                  setError('you don`t have enough money')
-                } else{
-                  dispatch(buyBitcoin(values.bitcoin));
-                  dispatch(withdraw(bitcoinPrice*values.bitcoin));
-                  closeModal();
-                }
-              } else{
-                  if(userBitcoins < values.bitcoin){
-                    setError('you don`t have enough bitcoins')
-                  } else {
-                    dispatch(sellBitcoin(values.bitcoin));
-                    dispatch(deposit(bitcoinPrice*values.bitcoin));
-                    closeModal();
-                  }
-              }
-            }}
+            onSubmit= {buyAndSell}
           >
           <Form>
             <Field

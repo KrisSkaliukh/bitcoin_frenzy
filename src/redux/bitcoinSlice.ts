@@ -10,7 +10,8 @@ export interface BitcoinState {
   bitcoinPrice: number,
   modalType: ModalType
   modalTypeBitcoins: ModalTypeBitcoins,
-  modalTypePrice: ModalTypePrise
+  modalTypePrice: ModalTypePrise,
+  historyArr: [{ id: number, history: string, date: string }]
 };
 
 const initialState: BitcoinState = {
@@ -19,7 +20,8 @@ const initialState: BitcoinState = {
   bitcoinPrice: 1000,
   modalType: '',
   modalTypeBitcoins: '',
-  modalTypePrice: ''
+  modalTypePrice: '',
+  historyArr: [{ id: 0, history: '', date: ''}]
 };
 
 export const bitcoinSlice = createSlice({
@@ -59,6 +61,9 @@ export const bitcoinSlice = createSlice({
         state.bitcoinPrice -= action.payload
       }
     },
+    setHistory: (state, action: PayloadAction<string>) => {
+      state.historyArr.history = state.historyArr.push(action.payload)
+    },
   }
 });
 
@@ -72,6 +77,7 @@ export const {
   changeModalTypePrice,
   increaseBicoinPrice,
   descreaseBicoinPrice,
+  setHistory
 } = bitcoinSlice.actions;
 
 export default bitcoinSlice.reducer;

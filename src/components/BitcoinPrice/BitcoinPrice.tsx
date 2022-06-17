@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
 
 import { changeModalTypePrice } from '../../redux/bitcoinSlice';
@@ -10,7 +10,7 @@ export default function BitcoinPrice() {
   const dispatch = useDispatch()
   
   const bitcoinPrice = useSelector((state: RootState) => state.bitcoins.bitcoinPrice);
-  const price = React.useMemo(() => new Intl.NumberFormat('en').format(bitcoinPrice), [bitcoinPrice]);
+  const price = useMemo(() => new Intl.NumberFormat('en').format(bitcoinPrice), [bitcoinPrice]);
 
   const openIncrease = () => {
 

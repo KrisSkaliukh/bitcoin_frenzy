@@ -1,23 +1,20 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 import './historySection.style.css'
 
-export default function History() {
+export default function HistorySection() {
+  let moment = require('moment');
+  const date = moment().format('DD/MM/Y HH:mm');
+
+  const { historyArr } = useSelector((state: RootState) => state.bitcoins);
+console.log(historyArr)
   return(
     <div className='history'>
       <div>
-        <p className='date'> 09/06/2022 12:15</p>
-        <p className='infoText'>Purchased 1 Bitcoin</p>
-      </div>
-      <div className='line'></div>
-      <div>
-        <p className='date'> 09/06/2022 10:45</p>
-        <p className='infoText'>Increased Bitcoin price by 1,000$</p>
-      </div>
-      <div className='line'></div>
-      <div>
-        <p className='date'> 09/06/2022 10:34</p>
-        <p className='infoText'>Increased Bitcoin price by 1,000$</p>
+        <p className='date'>{date}</p>
+        {/* <p className='infoText'>{history}</p> */}
       </div>
       <div className='line'></div>
     </div>
