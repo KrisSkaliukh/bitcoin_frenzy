@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type ModalType = '' | 'deposit' | 'withdraw';
 export type ModalTypeBitcoins = '' | 'buyBitcoin' | 'sellBitcoins';
+export type ModalTypePrise = '' | 'Increase' | 'Decrease';
 
 export interface BitcoinState {
   userMoney: number,
@@ -9,6 +10,7 @@ export interface BitcoinState {
   bitcoinPrice: number,
   modalType: ModalType
   modalTypeBitcoins: ModalTypeBitcoins,
+  modalTypePrice: ModalTypePrise
 };
 
 const initialState: BitcoinState = {
@@ -17,6 +19,7 @@ const initialState: BitcoinState = {
   bitcoinPrice: 1000,
   modalType: '',
   modalTypeBitcoins: '',
+  modalTypePrice: ''
 };
 
 export const bitcoinSlice = createSlice({
@@ -28,6 +31,9 @@ export const bitcoinSlice = createSlice({
     },
     changeModalType: (state, action: PayloadAction<ModalType>) => {
       state.modalType = action.payload
+    },
+    changeModalTypePrice: (state, action: PayloadAction<ModalTypePrise>) => {
+      state.modalTypePrice = action.payload
     },
     deposit: (state, action: PayloadAction<number>) => {
       state.userMoney += action.payload
@@ -45,8 +51,27 @@ export const bitcoinSlice = createSlice({
         state.userBitcoins -= action.payload
       }
     },
+    increaseBicoinPrice: (state, action: PayloadAction<number>) => {
+      state.bitcoinPrice += action.payload
+    }, 
+    descreaseBicoinPrice: (state, action: PayloadAction<number>) => {
+      if(state.bitcoinPrice > 0){
+        state.bitcoinPrice -= action.payload
+      }
+    },
   }
 });
 
-export const { deposit, withdraw, changeModalType, buyBitcoin, sellBitcoin, changeModalTypeBitcoins } = bitcoinSlice.actions;
+export const {
+  deposit,
+  withdraw,
+  changeModalType,
+  buyBitcoin,
+  sellBitcoin,
+  changeModalTypeBitcoins,
+  changeModalTypePrice,
+  increaseBicoinPrice,
+  descreaseBicoinPrice,
+} = bitcoinSlice.actions;
+
 export default bitcoinSlice.reducer;
