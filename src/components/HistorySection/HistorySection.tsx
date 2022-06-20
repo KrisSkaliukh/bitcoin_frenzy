@@ -5,18 +5,19 @@ import { RootState } from '../../redux/store';
 import './historySection.style.css'
 
 export default function HistorySection() {
-  let moment = require('moment');
-  const date = moment().format('DD/MM/Y HH:mm');
-
   const { historyArr } = useSelector((state: RootState) => state.bitcoins);
-console.log(historyArr)
+  
   return(
     <div className='history'>
+      {historyArr.map((hist)  => (
+        <React.Fragment key={hist.id}>
       <div>
-        <p className='date'>{date}</p>
-        {/* <p className='infoText'>{history}</p> */}
+        <p className='date'>{hist.date}</p>
+        <p className='infoText'>{hist.history}</p>
       </div>
       <div className='line'></div>
+      </React.Fragment>
+  ))}
     </div>
   )
 };

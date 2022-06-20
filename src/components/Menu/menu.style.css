@@ -2,8 +2,9 @@
 
 .menu {
   background-color: rgb(67, 72, 160);
+  min-height: 890px;
+  height: 100%;
   display: inline-block;
-  height: 800px;
   width: 300px;
 }
 

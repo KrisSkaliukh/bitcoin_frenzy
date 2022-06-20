@@ -11,7 +11,7 @@ export interface BitcoinState {
   modalType: ModalType
   modalTypeBitcoins: ModalTypeBitcoins,
   modalTypePrice: ModalTypePrise,
-  historyArr: [{ id: number, history: string, date: string }]
+  historyArr: { id: number, history: string, date: string }[]
 };
 
 const initialState: BitcoinState = {
@@ -62,7 +62,10 @@ export const bitcoinSlice = createSlice({
       }
     },
     setHistory: (state, action: PayloadAction<string>) => {
-      state.historyArr.history = state.historyArr.push(action.payload)
+      let moment = require('moment');
+      const date = moment().format('DD/MM/Y HH:mm');
+  
+      state.historyArr.push({ id: state.historyArr.length+1, history: action.payload, date: date });
     },
   }
 });
