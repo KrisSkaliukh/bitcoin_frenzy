@@ -25,8 +25,8 @@ export default function Wallet() {
     <div className='walletWrap'>
       <p className='walletText'>Your Bitcoin wallet </p> 
       <p className='walletText styled'>You now own {userBitcoins} Bitcoins</p>
-      <button onClick={depositMoney} className='walletBtn'>Deposit 100$</button>
-      <button onClick={withdrawMoney} className='walletBtn'>Withdraw 100$</button>
+      <button onClick={depositMoney} className='walletBtn'>Deposit</button>
+      <button onClick={withdrawMoney} className='walletBtn'>Withdraw</button>
       <WalletModal />
     </div>
   );

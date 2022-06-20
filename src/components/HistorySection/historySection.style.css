@@ -1,5 +1,6 @@
 .history {
-  height: 800px;
+  min-height: 890px;
+  height: 100%;
   width: 300px;
   display: flex;
   background-color: rgb(212, 211, 209);
