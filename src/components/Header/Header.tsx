@@ -5,10 +5,12 @@ import { RootState } from '../../redux/store';
 import HeaderLogo from '../../assets/logo.png';
 
 import './header.style.css'
+import { useGetPriceQuery } from '../../redux/services/bitcoinPrice';
 
 export default function Header() {
-  const { userMoney, userBitcoins, bitcoinPrice } = useSelector((state: RootState) => state.bitcoins);
-  const price = useMemo(() => new Intl.NumberFormat('en').format(bitcoinPrice), [bitcoinPrice] ) ;
+  const { userMoney, userBitcoins } = useSelector((state: RootState) => state.bitcoins);
+  const { data } = useGetPriceQuery();
+  const price = useMemo(() => new Intl.NumberFormat('en').format(data), [data] ) ;
   
   return(
     <div className='header'>

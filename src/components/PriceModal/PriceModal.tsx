@@ -11,6 +11,7 @@ import { Box, Typography, Modal, Button  } from '@mui/material';
 import { changeModalTypePrice, descreaseBicoinPrice, increaseBicoinPrice, setHistory } from '../../redux/bitcoinSlice';
 
 import './priceModal.style.css';
+import { useChangePriceMutation } from '../../redux/services/bitcoinPrice';
 
 const INITIAL_VALUES = { price: 1000 };
 
@@ -25,9 +26,13 @@ export default function PriceModal() {
     dispatch(changeModalTypePrice(''));
   }, [dispatch]);
 
+  const [changeBitcoinPrice] = useChangePriceMutation();
+
   const increaseAndDescrease = useCallback((values: { price: number }) => {
     const price = new Intl.NumberFormat('en').format(values.price);
     if(modalTypePrice === 'Increase'){
+      
+      changeBitcoinPrice({bitcoin_price: values.price});
       dispatch(increaseBicoinPrice(values.price));
       dispatch(setHistory(`Increased Bitcoin price by ${price}$`));
       closeModal();
@@ -40,7 +45,7 @@ export default function PriceModal() {
           setError('bitcoin price is too low');
         }
       }
-  }, [bitcoinPrice, closeModal, dispatch, modalTypePrice]);
+  }, [bitcoinPrice, changeBitcoinPrice, closeModal, dispatch, modalTypePrice]);
 
   return (
     <>

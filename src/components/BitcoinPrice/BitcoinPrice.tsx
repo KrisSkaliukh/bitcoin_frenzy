@@ -13,7 +13,6 @@ export default function BitcoinPrice() {
   const price = useMemo(() => new Intl.NumberFormat('en').format(bitcoinPrice), [bitcoinPrice]);
 
   const openIncrease = () => {
-
     dispatch(changeModalTypePrice('Increase'));
   };
 
