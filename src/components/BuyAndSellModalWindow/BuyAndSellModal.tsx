@@ -8,7 +8,9 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { buyBitcoin, changeModalTypeBitcoins, deposit, sellBitcoin, setHistory, withdraw } from '../../redux/bitcoinSlice';
+import { changeModalTypeBitcoins, setHistory } from '../../redux/bitcoinSlice';
+import { useGetPriceQuery } from '../../redux/services/bitcoinPrice';
+import { useChangeBitcoinsCountMutation, useChangeMoneyCountMutation, useGetUserBitcoinsQuery, useGetUserMoneyQuery } from '../../redux/services/user';
 
 import './buyAndSellModal.style.css';
 
@@ -18,7 +20,14 @@ export default function BuyAnsSellModal() {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   
-  const { modalTypeBitcoins, bitcoinPrice, userMoney, userBitcoins } = useSelector((state: RootState) => state.bitcoins);
+  const { modalTypeBitcoins } = useSelector((state: RootState) => state.bitcoins);
+
+  const { data: bitcoinPrice = 0 } = useGetPriceQuery();
+  const { data: userMoney } = useGetUserMoneyQuery();
+  const { data: userBitcoins } = useGetUserBitcoinsQuery();
+
+  const [ changeBitcoinsCount ] = useChangeBitcoinsCountMutation();
+  const [ changeCountMoney ] = useChangeMoneyCountMutation();
 
   const closeModal = useCallback(() => {
     setError('');
@@ -27,25 +36,31 @@ export default function BuyAnsSellModal() {
 
   const buyAndSell = useCallback((values: { bitcoin: number }) =>{
     if(modalTypeBitcoins === 'buyBitcoin'){
-      if(userMoney < bitcoinPrice){
+      if(bitcoinPrice && userMoney && userMoney < bitcoinPrice){
         setError('you don`t have enough money')
-      } else{
-        dispatch(buyBitcoin(values.bitcoin));
-        dispatch(withdraw(bitcoinPrice*values.bitcoin));
-        dispatch(setHistory(`Purchased ${values.bitcoin} Bitcoin`));
-        closeModal();
-      }
-    } else{
+      } else {
+          if (userMoney) {
+            const count_money = userMoney - (bitcoinPrice * values.bitcoin);      
+            changeCountMoney({count_money});
+          }
+          changeBitcoinsCount({ count_bitcoins: values.bitcoin + userBitcoins });
+          dispatch(setHistory(`Purchased ${values.bitcoin} Bitcoin`));
+          closeModal();
+        }
+    } else {
         if(userBitcoins < values.bitcoin){
           setError('you don`t have enough bitcoins')
         } else {
-          dispatch(sellBitcoin(values.bitcoin));
-          dispatch(deposit(bitcoinPrice*values.bitcoin));
+          changeBitcoinsCount({ count_bitcoins:  userBitcoins - values.bitcoin });
+          if (userMoney) {
+            const count_money = userMoney + (bitcoinPrice * values.bitcoin);      
+            changeCountMoney({count_money});
+          }
           dispatch(setHistory(`Sold ${values.bitcoin} Bitcoin`));
           closeModal();
         }
     }
-  }, [bitcoinPrice, closeModal, dispatch, modalTypeBitcoins, userBitcoins, userMoney]);
+  }, [bitcoinPrice, changeBitcoinsCount, changeCountMoney, closeModal, dispatch, modalTypeBitcoins, userBitcoins, userMoney]);
 
   return (
       <Modal

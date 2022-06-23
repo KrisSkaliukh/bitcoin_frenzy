@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+
 import { changeModalType } from '../../redux/bitcoinSlice';
-import { RootState } from '../../redux/store';
+import { useGetUserBitcoinsQuery } from '../../redux/services/user';
 import WalletModal from '../WalletModal/WalletModal';
 
 import './wallet.style.css';
@@ -10,7 +10,7 @@ import './wallet.style.css';
 export default function Wallet() {
   const dispatch = useDispatch();
 
-  const userBitcoins = useSelector((state: RootState) => state.bitcoins.userBitcoins);
+  const { data: userBitcoins } = useGetUserBitcoinsQuery();
 
   const depositMoney = () => {
     dispatch(changeModalType('deposit'));
