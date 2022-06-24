@@ -8,11 +8,11 @@ import { useGetUserBitcoinsQuery, useGetUserMoneyQuery } from '../../redux/servi
 import './header.style.css'
 
 export default function Header() {
-  const { data } = useGetPriceQuery();
+  const { data = 0 } = useGetPriceQuery();
   const { data: bitcoins } = useGetUserBitcoinsQuery();
   const {data: money } = useGetUserMoneyQuery();
 
-  const price = useMemo(() => new Intl.NumberFormat('en').format(data ?? 0), [data] ) ;
+  const price = useMemo(() => new Intl.NumberFormat('en').format(data), [data] ) ;
 
   return(
     <div className='header'>

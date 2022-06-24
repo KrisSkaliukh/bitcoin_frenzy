@@ -9,8 +9,8 @@ import './bitcoinPrice.style.css';
 export default function BitcoinPrice() {
   const dispatch = useDispatch()
   
-  const { data: bitcoinPrice } = useGetPriceQuery();
-  const price = useMemo(() => new Intl.NumberFormat('en').format(bitcoinPrice ?? 0), [bitcoinPrice]);
+  const { data: bitcoinPrice = 0} = useGetPriceQuery();
+  const price = useMemo(() => new Intl.NumberFormat('en').format(bitcoinPrice), [bitcoinPrice]);
 
   const openIncrease = () => {
     dispatch(changeModalTypePrice('Increase'));

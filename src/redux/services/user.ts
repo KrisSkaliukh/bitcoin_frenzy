@@ -8,7 +8,7 @@ export const api = createApi({
     getUserMoney: build.query<number, void>({
       query: () => '/money/1',
       transformResponse: (response: { count_money: number } ) => {
-        if(!response) return 1
+        if(!response) return 0
         return response.count_money
       },
     providesTags: ['UserMoney'],
