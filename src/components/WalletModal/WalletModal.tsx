@@ -8,7 +8,9 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { changeModalType, deposit, setHistory, withdraw } from '../../redux/bitcoinSlice';
+import { changeModalType, setHistory } from '../../redux/bitcoinSlice';
+
+import { useChangeMoneyCountMutation, useGetUserMoneyQuery } from '../../redux/services/user';
 
 import './walletModal.style.css';
 
@@ -17,9 +19,13 @@ const INITIAL_VALUES = { money: 100 };
 export default function WalletModal() {
   const [error, setError] = useState('')
   const dispatch = useDispatch();
-  
-  const { modalType, userMoney } = useSelector((state: RootState) => state.bitcoins);
+ 
+  const [ changeCountMoney ] = useChangeMoneyCountMutation();
 
+  const { data: countUserMoney } = useGetUserMoneyQuery();
+  console.log(countUserMoney);
+  const { modalType } = useSelector((state: RootState) => state.bitcoins);
+ 
   const closeModal = useCallback(() => {
     setError('');
     dispatch(changeModalType(''));
@@ -27,19 +33,23 @@ export default function WalletModal() {
 
   const workWithMoney = useCallback((values: {money: number} ) =>{
     if(modalType === 'deposit'){
-      dispatch(deposit(values.money));
+      if (countUserMoney) {
+        const count_money = countUserMoney + values.money;
+        changeCountMoney({count_money});
+      };
       dispatch(setHistory(`Deposit ${values.money}`));
       closeModal();
     } else{
-        if(userMoney >= values.money){
-        dispatch(withdraw(values.money));
-        dispatch(setHistory(`Withdraw ${values.money}`));
-        closeModal();
+        if(countUserMoney && countUserMoney >= values.money){
+          const count_money = countUserMoney - values.money;
+          changeCountMoney({count_money});
+          dispatch(setHistory(`Withdraw ${values.money}`));
+          closeModal();
       } else {
         setError('you don`t have money');
       }
     }
-  }, [closeModal, dispatch, modalType, userMoney])
+  }, [changeCountMoney, closeModal, countUserMoney, dispatch, modalType])
 
   return (
     <>
