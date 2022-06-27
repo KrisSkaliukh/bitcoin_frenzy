@@ -21,7 +21,7 @@ export const api = createApi({
       },
     providesTags: ['UserBitcoins'],
     }),
-    changeMoneyCount: build.mutation<any, { count_money: any }>({
+    changeMoneyCount: build.mutation<number, { count_money: number }>({
       query: ({count_money}) => ({
         url: '/updateMoneyCount/1',
         method: 'PATCH',
@@ -31,7 +31,7 @@ export const api = createApi({
       }),
     invalidatesTags: ['UserMoney'],    
     }),
-    changeBitcoinsCount: build.mutation<any, { count_bitcoins: number }>({
+    changeBitcoinsCount: build.mutation<number, { count_bitcoins: number }>({
       query: ({count_bitcoins}) => ({
         url: '/updateBitcoinsCount/1',
         method: 'PATCH',

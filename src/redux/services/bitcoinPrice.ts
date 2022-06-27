@@ -13,7 +13,7 @@ export const api = createApi({
       },
       providesTags: ['Bitcoins'],
     }),
-    changePrice: build.mutation<any, {bitcoin_price: number}>({
+    changePrice: build.mutation<number, {bitcoin_price: number}>({
       query: ({ bitcoin_price }) => ({
         url: '/updatePrice',
         method: 'PATCH',

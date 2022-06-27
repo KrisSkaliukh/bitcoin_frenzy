@@ -11,9 +11,9 @@ import { Box, Typography, Modal, Button  } from '@mui/material';
 import { changeModalType } from '../../redux/bitcoinSlice';
 
 import { useChangeMoneyCountMutation, useGetUserMoneyQuery } from '../../redux/services/user';
+import { useAddHistoryMutation } from '../../redux/services/history';
 
 import './walletModal.style.css';
-import { useAddHistoryMutation } from '../../redux/services/history';
 
 const INITIAL_VALUES = { money: 100 };
 

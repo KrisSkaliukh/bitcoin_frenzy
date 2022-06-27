@@ -8,10 +8,11 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { changeModalTypePrice, setHistory } from '../../redux/bitcoinSlice';
+import { changeModalTypePrice } from '../../redux/bitcoinSlice';
+import { useChangePriceMutation, useGetPriceQuery } from '../../redux/services/bitcoinPrice';
+import { useAddHistoryMutation } from '../../redux/services/history';
 
 import './priceModal.style.css';
-import { useChangePriceMutation, useGetPriceQuery } from '../../redux/services/bitcoinPrice';
 
 const INITIAL_VALUES = { price: 1000 };
 
@@ -28,23 +29,24 @@ export default function PriceModal() {
   }, [dispatch]);
 
   const [changeBitcoinPrice] = useChangePriceMutation();
+  const [ addHistory ] = useAddHistoryMutation();
 
   const increaseAndDescrease = useCallback((values: { price: number }) => {
     const price = new Intl.NumberFormat('en').format(values.price);
     if(modalTypePrice === 'Increase'){
       changeBitcoinPrice({bitcoin_price: values.price + bitcoinPrice});
-      dispatch(setHistory(`Increased Bitcoin price by ${price}$`));
+      addHistory({ text_history: `Increased Bitcoin price by ${price}$` });
       closeModal();
     } else{
         if(bitcoinPrice >= values.price){
           changeBitcoinPrice({bitcoin_price: bitcoinPrice -values.price });
-          dispatch(setHistory(`Decreased Bitcoin price by ${price}$`));
+          addHistory({ text_history: `Decreased Bitcoin price by ${price}$` });
           closeModal();
         } else {
           setError('bitcoin price is too low');
         }
       }
-  }, [bitcoinPrice, changeBitcoinPrice, closeModal, dispatch, modalTypePrice]);
+  }, [addHistory, bitcoinPrice, changeBitcoinPrice, closeModal, modalTypePrice]);
 
   return (
     <>

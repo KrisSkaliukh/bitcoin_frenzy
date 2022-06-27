@@ -4,11 +4,11 @@ const moment = require('moment');
 const date = moment().format('DD/MM/Y HH:mm');
 
 export const api = createApi({
-  reducerPath: 'userInfo',
+  reducerPath: 'HistoryReducer',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/history' }),
   tagTypes: ['History'],
   endpoints: (build) => ({
-    addHistory: build.mutation<any, { text_history: string}>({
+    addHistory: build.mutation<string, { text_history: string}>({
       query: ({text_history}) => ({
         url: '/',
         method: 'POST',
@@ -19,9 +19,14 @@ export const api = createApi({
       }),
     invalidatesTags: ['History'],    
     }),
+    getHistory: build.query<{id: number, text_history: string, date: string}[], void>({
+      query: () => '/userHist',
+      providesTags: ['History'],
+    }),
   })
 })
 
 export const {
   useAddHistoryMutation,
+  useGetHistoryQuery
 } = api

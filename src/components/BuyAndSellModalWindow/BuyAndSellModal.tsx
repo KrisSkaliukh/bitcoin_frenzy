@@ -8,9 +8,10 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { changeModalTypeBitcoins, setHistory } from '../../redux/bitcoinSlice';
+import { changeModalTypeBitcoins } from '../../redux/bitcoinSlice';
 import { useGetPriceQuery } from '../../redux/services/bitcoinPrice';
 import { useChangeBitcoinsCountMutation, useChangeMoneyCountMutation, useGetUserBitcoinsQuery, useGetUserMoneyQuery } from '../../redux/services/user';
+import { useAddHistoryMutation } from '../../redux/services/history';
 
 import './buyAndSellModal.style.css';
 
@@ -28,6 +29,7 @@ export default function BuyAnsSellModal() {
 
   const [ changeBitcoinsCount ] = useChangeBitcoinsCountMutation();
   const [ changeCountMoney ] = useChangeMoneyCountMutation();
+  const [ addHistory ] = useAddHistoryMutation();
 
   const closeModal = useCallback(() => {
     setError('');
@@ -44,7 +46,7 @@ export default function BuyAnsSellModal() {
             changeCountMoney({count_money});
           }
           changeBitcoinsCount({ count_bitcoins: values.bitcoin + userBitcoins });
-          dispatch(setHistory(`Purchased ${values.bitcoin} Bitcoin`));
+          addHistory({ text_history: `Purchased ${values.bitcoin} Bitcoin` });
           closeModal();
         }
     } else {
@@ -56,11 +58,11 @@ export default function BuyAnsSellModal() {
             const count_money = userMoney + (bitcoinPrice * values.bitcoin);      
             changeCountMoney({count_money});
           }
-          dispatch(setHistory(`Sold ${values.bitcoin} Bitcoin`));
+          addHistory({ text_history: `Sold ${values.bitcoin} Bitcoin` });
           closeModal();
         }
     }
-  }, [bitcoinPrice, changeBitcoinsCount, changeCountMoney, closeModal, dispatch, modalTypeBitcoins, userBitcoins, userMoney]);
+  }, [addHistory, bitcoinPrice, changeBitcoinsCount, changeCountMoney, closeModal, modalTypeBitcoins, userBitcoins, userMoney]);
 
   return (
       <Modal
