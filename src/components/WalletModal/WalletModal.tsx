@@ -8,9 +8,10 @@ import {
   Field
 } from 'formik';
 import { Box, Typography, Modal, Button  } from '@mui/material';
-import { changeModalType, setHistory } from '../../redux/bitcoinSlice';
+import { changeModalType } from '../../redux/bitcoinSlice';
 
 import { useChangeMoneyCountMutation, useGetUserMoneyQuery } from '../../redux/services/user';
+import { useAddHistoryMutation } from '../../redux/services/history';
 
 import './walletModal.style.css';
 
@@ -21,9 +22,10 @@ export default function WalletModal() {
   const dispatch = useDispatch();
  
   const [ changeCountMoney ] = useChangeMoneyCountMutation();
+  const [ addHistory ] = useAddHistoryMutation();
 
   const { data: countUserMoney } = useGetUserMoneyQuery();
-  console.log(countUserMoney);
+
   const { modalType } = useSelector((state: RootState) => state.bitcoins);
  
   const closeModal = useCallback(() => {
@@ -37,19 +39,19 @@ export default function WalletModal() {
         const count_money = countUserMoney + values.money;
         changeCountMoney({count_money});
       };
-      dispatch(setHistory(`Deposit ${values.money}`));
+      addHistory({ text_history: `Deposit ${values.money}`});
       closeModal();
     } else{
         if(countUserMoney && countUserMoney >= values.money){
           const count_money = countUserMoney - values.money;
           changeCountMoney({count_money});
-          dispatch(setHistory(`Withdraw ${values.money}`));
+          addHistory({ text_history: `Withdraw ${values.money}`});
           closeModal();
       } else {
         setError('you don`t have money');
       }
     }
-  }, [changeCountMoney, closeModal, countUserMoney, dispatch, modalType])
+  }, [addHistory, changeCountMoney, closeModal, countUserMoney, modalType])
 
   return (
     <>
