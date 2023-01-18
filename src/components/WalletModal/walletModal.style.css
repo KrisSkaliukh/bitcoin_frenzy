@@ -5,18 +5,24 @@
   transform: translate(-50%, -50%);
   width: 400px;
   background-color: rgb(247, 252, 255);
-  border: 2px solid #000;
+  border: 1px solid rgb(79, 79, 79);
   box-shadow: 24;
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .moneyField {
-  width: 90%;
+  width: 98%;
   height: 25px;
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .error {
   color: red;
   font-size: 10px;
   margin-top: 0;
+}
+
+.submitBtn {
+  margin: 10px;
 }
