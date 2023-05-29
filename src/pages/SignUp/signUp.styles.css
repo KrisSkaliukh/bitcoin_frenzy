@@ -1,0 +1,30 @@
+.welcomeImage {
+  width: 800px;
+  height: 100%;
+}
+
+.headerText {
+  font-family: 'DM Serif Display', serif;
+  font-size: 40px;
+}
+
+.welcomeText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: #A0A0A0;
+}
+
+.buttonsText {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+}
+
+.openLoginPages {
+  width: 450px;
+  height: 60px;
+}
+
+.openLoginPages:hover {
+  background-color: black;
+  color: white;
+}
