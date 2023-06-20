@@ -23,7 +23,7 @@ export default function WelcomePage() {
       <Box mt={8} mr={3} style={{ display: 'flex', flexDirection: 'column', gap: 35 }}>
         <p className='headerText'>Welcome to Bitcoin Frenzy</p>
         <p className='welcomeText'>This site is a bitcoin wallet.
-The owner and creator of this site Glazunova Ekaterina, a 4th year student of the Taganrog Institute named after A.P. Chekhov, branch of the Russian State Economic University (RINH).  </p>
+          The owner and creator of this site Glazunova Ekaterina, a 4th year student of the Taganrog Institute named after A.P. Chekhov, branch of the Russian State Economic University (RINH).  </p>
         <p className='buttonsText'>Choose your login method and enjoy</p>
         <Box style={{ display: 'flex', flexDirection: 'row', gap: 51 }}>
           <Button className='openLoginPages' style={{ backgroundColor: '#407BFF', color: 'white' }} onClick={openSignUpPage}>Sign Up</Button>

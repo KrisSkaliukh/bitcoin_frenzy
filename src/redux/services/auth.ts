@@ -7,7 +7,7 @@ export const api = createApi({
   tagTypes: ['Auth'],
   endpoints: (build) => ({
     sugnUpUser: build.mutation<string, { email: string, login: string, password: string }>({
-      query: ({email, login, password}) => ({
+      query: ({ email, login, password }) => ({
         url: '/signUp',
         method: 'POST',
         body: {
@@ -22,7 +22,8 @@ export const api = createApi({
     },
     invalidatesTags: ['Auth'],    
     }),
-    loginUser: build.mutation<string, { email: string, password: string }>({
+  
+    loginUser: build.mutation<{ token: string, user: { email: string, login: string, id: number } }, { email: string, password: string }>({
         query: ({email, password}) => ({
           url: '/login',
           method: 'POST',
@@ -31,10 +32,10 @@ export const api = createApi({
               password,
           }
         }),
-    transformResponse: (response: { user: any }) => {
+    transformResponse: (response: { data: any }) => {
         if(!response) return null;
-        localStorage.setItem(TOKEN_KEY, response.user.token);
-        return response.user
+        localStorage.setItem(TOKEN_KEY, response.data.token);
+        return response.data
     },
       invalidatesTags: ['Auth'],    
       }),

@@ -6,6 +6,8 @@ import LoginImage from '../../assets/loginImage.svg';
 import { Button, Box, TextField } from '@mui/material';
 
 import './login.style.css'
+import { useLoginUserMutation } from '../../redux/services/auth';
+import { useNavigate } from 'react-router-dom';
 
 const validationSchema = yup.object({
   email: yup
@@ -19,6 +21,12 @@ const validationSchema = yup.object({
 });
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  
+  const [ login, data ] = useLoginUserMutation();
+  console.log(data);
+  console.log(data.isSuccess);
+  
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -26,7 +34,8 @@ export default function LoginPage() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      login(values);
+      if(data.isSuccess) navigate('/wallet', { replace: true});
     },
   });
 
@@ -63,7 +72,7 @@ export default function LoginPage() {
               label="Password"
               onBlur={formik.handleBlur}
             />
-            <Button className='openLoginPages' type='submit' sx={{ backgroundColor: '#407BFF', color: 'white' }}>Login</Button>
+            <Button className='openLoginPages' type='submit' variant='contained' sx={{ backgroundColor: '#407BFF', color: 'white' }}>Login</Button>
           </Box>
         </form>
       </Box>
