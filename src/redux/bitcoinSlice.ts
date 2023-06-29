@@ -5,6 +5,7 @@ export type ModalTypeBitcoins = '' | 'buyBitcoin' | 'sellBitcoins';
 export type ModalTypePrise = '' | 'Increase' | 'Decrease';
 
 export interface BitcoinState {
+  userId: number;
   userMoney: number,
   userBitcoins: number,
   bitcoinPrice: number,
@@ -15,6 +16,7 @@ export interface BitcoinState {
 };
 
 const initialState: BitcoinState = {
+  userId: 0,
   userMoney: 200,
   userBitcoins: 7,
   bitcoinPrice: 1000,
@@ -28,7 +30,7 @@ export const bitcoinSlice = createSlice({
   name: 'bitcoins',
   initialState, 
   reducers: {
-    changeModalTypeBitcoins: (state, action: PayloadAction<ModalTypeBitcoins>) => {
+    changeModalTypeBitcoins: (state: BitcoinState, action: PayloadAction<ModalTypeBitcoins>) => {
       state.modalTypeBitcoins = action.payload
     },
     changeModalType: (state, action: PayloadAction<ModalType>) => {
@@ -67,6 +69,9 @@ export const bitcoinSlice = createSlice({
   
       state.historyArr.push({ id: state.historyArr.length+1, history: action.payload, date: date });
     },
+    setUserId: (state, action: PayloadAction<number> ) => {
+      state.userId -= action.payload
+    },
   }
 });
 
@@ -80,7 +85,8 @@ export const {
   changeModalTypePrice,
   increaseBicoinPrice,
   descreaseBicoinPrice,
-  setHistory
+  setHistory, 
+  setUserId
 } = bitcoinSlice.actions;
 
 export default bitcoinSlice.reducer;

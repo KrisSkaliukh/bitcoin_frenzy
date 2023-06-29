@@ -17,6 +17,7 @@
   background-color: rgb(67, 72, 160);
   border-radius: 7px;
   border: solid rgb(67, 72, 160);
+  cursor: pointer;
 }
 
 .walletText {

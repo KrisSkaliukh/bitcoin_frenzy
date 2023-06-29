@@ -78,7 +78,7 @@ export default function WalletModal() {
               className="moneyField"
             />
             {!!error && <p className='error'>{error}</p>}
-            <Button className="submitBtn" type="submit" color="primary" variant="contained" fullWidth>
+            <Button className='submitBtn' type="submit" color="primary" variant="contained" fullWidth>
             {modalType === 'deposit' ? 'Deposit' : 'Withdraw' }
             </Button>            
           </Form>
