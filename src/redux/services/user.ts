@@ -6,7 +6,7 @@ export const api = createApi({
   tagTypes: ['UserMoney', 'UserBitcoins' ],
   endpoints: (build) => ({
     getUserMoney: build.query<number, void>({
-      query: () => `/money/1`,
+      query: () => `/money`,
       transformResponse: (response: { count_money: number } ) => {
         if(!response) return 0
         return response.count_money
@@ -14,7 +14,7 @@ export const api = createApi({
     providesTags: ['UserMoney'],
     }),
     getUserBitcoins: build.query<any, void>({
-      query: () => `/bitcoins/1`,
+      query: () => `/bitcoins`,
       transformResponse: (response: { count_bitcoins: number } ) => {
         if(!response) return 0
         return response.count_bitcoins
@@ -23,7 +23,7 @@ export const api = createApi({
     }),
     changeMoneyCount: build.mutation<number, { count_money: number }>({
       query: ({count_money }) => ({
-        url: `/updateMoneyCount/1`,
+        url: `/updateMoneyCount`,
         method: 'PATCH',
         body: {
           count_money,

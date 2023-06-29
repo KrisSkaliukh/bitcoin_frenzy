@@ -23,7 +23,7 @@ export const api = createApi({
     invalidatesTags: ['Auth'],    
     }),
   
-    loginUser: build.mutation<{ token: string, user: { email: string, login: string, id: number } }, { email: string, password: string }>({
+    loginUser: build.mutation<{ token: any, user: { email: string, login: string, id: number } }, { email: string, password: string }>({
         query: ({email, password}) => ({
           url: '/login',
           method: 'POST',
@@ -32,12 +32,12 @@ export const api = createApi({
               password,
           }
         }),
-    transformResponse: (response: { data: any }) => {
+    transformResponse: (response: any ) => {
         if(!response) return null;
-        localStorage.setItem(TOKEN_KEY, response.data.token);
+        localStorage.setItem(TOKEN_KEY, response.token);
         return response.data
     },
-      invalidatesTags: ['Auth'],    
+      invalidatesTags: ['Auth'],
       }),
   })
 })

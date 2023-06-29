@@ -6,7 +6,7 @@ export const api = createApi({
   tagTypes: ['Bitcoins'],
   endpoints: (build) => ({
     getPrice: build.query<number, void>({
-      query: () => '/1',
+      query: () => `/`,
       transformResponse: (response: { bitcoin_price: number }[] ) => {
         if(!response || response.length === 0) return 0
         return response[0].bitcoin_price

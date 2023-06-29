@@ -8,6 +8,7 @@ import { Button, Box, TextField } from '@mui/material';
 import './login.style.css'
 import { useLoginUserMutation } from '../../redux/services/auth';
 import { useNavigate } from 'react-router-dom';
+import { TOKEN_KEY } from '../../redux/constants/localStorageKeys';
 
 const validationSchema = yup.object({
   email: yup
@@ -22,10 +23,12 @@ const validationSchema = yup.object({
 
 export default function LoginPage() {
   const navigate = useNavigate();
+
+  const backToWelcomePage = () => navigate('/', { replace: true});
   
   const [ login, data ] = useLoginUserMutation();
   console.log(data);
-  console.log(data.isSuccess);
+  console.log('success', data.isSuccess);
   
   const formik = useFormik({
     initialValues: {
@@ -35,7 +38,7 @@ export default function LoginPage() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       login(values);
-      if(data.isSuccess) navigate('/wallet', { replace: true});
+      navigate('/wallet', { replace: true})
     },
   });
 
@@ -75,6 +78,7 @@ export default function LoginPage() {
             <Button className='openLoginPages' type='submit' variant='contained' sx={{ backgroundColor: '#407BFF', color: 'white' }}>Login</Button>
           </Box>
         </form>
+        <Button type='submit' variant='text' onClick={backToWelcomePage}>Back to welcome page</Button>
       </Box>
     </Box>
   )
