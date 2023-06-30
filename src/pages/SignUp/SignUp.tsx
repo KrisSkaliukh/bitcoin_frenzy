@@ -33,7 +33,7 @@ export default function SignUpPage() {
   const backToWelcomePage = () => navigate('/', { replace: true});
 
   const handleSubmit = (values: {email: string, password: string, login: string }) => {
-    signUp(values);
+    signUp({ ...values, countMoney: 200, countBitcoins: 0 });
     loginUser({ email: values.email, password: values.password })
     navigate('/wallet', { replace: true});
   };
@@ -49,11 +49,11 @@ export default function SignUpPage() {
   });
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row' }} mt={8}>
-      <Box>
-        <img src={SignUpImage} alt='welcome' width="800px" height='750px' />
+    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} mt={4.5}>
+      <Box sx={{ width: '50%', maxHeight: '700px' }}>
+        <img src={SignUpImage} alt='signUp' width="100%" height='100%' />
       </Box>
-      <Box mr={3} sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box mr={3} sx={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
         <p className='headerText'>Create account</p>
         <p className='welcomeText'>Welcome. Create your account</p>
         <form onSubmit={formik.handleSubmit}>
@@ -92,21 +92,10 @@ export default function SignUpPage() {
               label="Password"
               onBlur={formik.handleBlur}
             />
-            {/* <TextField
-              sx={{ width: 450, height: 60, color: '#6E6E6E' }}
-              name="changepassword"
-              type="password"
-              value={formik.values.changepassword}
-              onChange={formik.handleChange}
-              error={formik.touched.changepassword && Boolean(formik.errors.changepassword)}
-              helperText={formik.touched.changepassword && formik.errors.changepassword}
-              label="Repeat password"
-              onBlur={formik.handleBlur}
-            /> */}
             <Button className='openLoginPages' type='submit' variant='contained' sx={{ backgroundColor: '#407BFF', color: 'white' }}>Sign Up</Button>
           </Box>
         </form>
-        <Button type='submit' variant='text' onClick={backToWelcomePage}>Back to welcome page</Button>
+        <Button type='submit' variant='text' onClick={backToWelcomePage} sx={{ alignSelf: 'flex-start', width: '300px', marginLeft: '65px' }}>Back to welcome page</Button>
       </Box>
     </Box>
   )

@@ -14,7 +14,7 @@ import { useAddHistoryMutation } from '../../redux/services/history';
 
 import './priceModal.style.css';
 
-const INITIAL_VALUES = { price: 1000 };
+const INITIAL_VALUES = { price: 0 };
 
 export default function PriceModal() {
   const dispatch = useDispatch();

@@ -17,13 +17,13 @@ export interface BitcoinState {
 
 const initialState: BitcoinState = {
   userId: 0,
-  userMoney: 200,
+  userMoney: 0,
   userBitcoins: 7,
-  bitcoinPrice: 1000,
+  bitcoinPrice: 0,
   modalType: '',
   modalTypeBitcoins: '',
   modalTypePrice: '',
-  historyArr: [{ id: 0, history: '', date: ''}]
+  historyArr: [{ id: 1, history: '', date: ''}]
 };
 
 export const bitcoinSlice = createSlice({

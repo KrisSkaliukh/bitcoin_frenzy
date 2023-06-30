@@ -6,19 +6,21 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/auth' }),
   tagTypes: ['Auth'],
   endpoints: (build) => ({
-    sugnUpUser: build.mutation<string, { email: string, login: string, password: string }>({
-      query: ({ email, login, password }) => ({
+    sugnUpUser: build.mutation<string, { email: string, login: string, password: string, countBitcoins: number, countMoney: number }>({
+      query: ({ email, login, password, countBitcoins, countMoney }) => ({
         url: '/signUp',
         method: 'POST',
         body: {
             email,
             login,
             password,
+            countBitcoins,
+            countMoney
         }
       }),
-    transformResponse: (response: { user: any }) => {
+    transformResponse: (response: { data: any }) => {
         if(!response) return null;
-        return response.user
+        return response.data
     },
     invalidatesTags: ['Auth'],    
     }),

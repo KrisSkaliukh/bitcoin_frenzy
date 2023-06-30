@@ -38,7 +38,7 @@ export default function BuyAnsSellModal() {
 
   const buyAndSell = useCallback((values: { bitcoin: number }) =>{
     if(modalTypeBitcoins === 'buyBitcoin'){
-      if(bitcoinPrice && userMoney && userMoney < bitcoinPrice){
+      if(bitcoinPrice && userMoney && userMoney === 0 && userMoney < bitcoinPrice){
         setError('you don`t have enough money')
       } else {
           if (userMoney) {

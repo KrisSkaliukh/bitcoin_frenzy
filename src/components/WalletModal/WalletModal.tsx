@@ -35,7 +35,7 @@ export default function WalletModal() {
 
   const workWithMoney = useCallback((values: {money: number} ) =>{
     if(modalType === 'deposit'){
-      if (countUserMoney) {
+      if (countUserMoney || countUserMoney === 0) {
         const count_money = countUserMoney + values.money;
         changeCountMoney({count_money});
       };

@@ -15,12 +15,13 @@ export const api = createApi({
         body: {
           text_history,
           date: date,
+          id: 1,
         }
       }),
     invalidatesTags: ['History'],    
     }),
     getHistory: build.query<{id: number, text_history: string, date: string}[], void>({
-      query: () => '/userHist',
+      query: () => '/userHist/1',
       providesTags: ['History'],
     }),
   })

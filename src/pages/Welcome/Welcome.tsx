@@ -16,11 +16,11 @@ export default function WelcomePage() {
     navigate('/login', { replace: true});
   };
   return (
-    <Box style={{ display: 'flex', flexDirection: 'row' }} mt={8}>
-      <Box>
-        <img src={WelcomeImage} alt='welcome' width="800px" height='750px' />
+    <Box style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} mt={4.5}>
+      <Box sx={{ width: '100%', height: '75%' }}>
+        <img src={WelcomeImage} alt='welcome' width="100%" height='100%' />
       </Box>
-      <Box mt={8} mr={3} style={{ display: 'flex', flexDirection: 'column', gap: 35 }}>
+      <Box mt={8} mr={3} style={{ display: 'flex', flexDirection: 'column', gap: 35, width: '50%' }}>
         <p className='headerText'>Welcome to Bitcoin Frenzy</p>
         <p className='welcomeText'>This site is a bitcoin wallet.
           The owner and creator of this site Glazunova Ekaterina, a 4th year student of the Taganrog Institute named after A.P. Chekhov, branch of the Russian State Economic University (RINH).  </p>

@@ -26,9 +26,7 @@ export default function LoginPage() {
 
   const backToWelcomePage = () => navigate('/', { replace: true});
   
-  const [ login, data ] = useLoginUserMutation();
-  console.log(data);
-  console.log('success', data.isSuccess);
+  const [ login ] = useLoginUserMutation();
   
   const formik = useFormik({
     initialValues: {
@@ -43,11 +41,11 @@ export default function LoginPage() {
   });
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row' }} mt={8}>
-      <Box>
-        <img src={LoginImage} alt='welcome' width="800px" height='750px' />
+    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} mt={4.5}>
+      <Box sx={{ width: '50%', maxHeight: '700px'  }}>
+        <img src={LoginImage} alt='login' width="100%" height='100%' />
       </Box>
-      <Box mt={8} mr={3} sx={{ display: 'flex', flexDirection: 'column' }}>
+      <Box mt={8} mr={3} sx={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
         <p className='headerText'>Log In</p>
         <p className='welcomeText'>Welcome Back.<br />Please Enter Your Details.</p>
         <form onSubmit={formik.handleSubmit}>
@@ -78,7 +76,7 @@ export default function LoginPage() {
             <Button className='openLoginPages' type='submit' variant='contained' sx={{ backgroundColor: '#407BFF', color: 'white' }}>Login</Button>
           </Box>
         </form>
-        <Button type='submit' variant='text' onClick={backToWelcomePage}>Back to welcome page</Button>
+        <Button type='submit' variant='text' onClick={backToWelcomePage} sx={{ alignSelf: 'flex-start', width: '300px', marginLeft: '65px' }}>Back to welcome page</Button>
       </Box>
     </Box>
   )

@@ -19,6 +19,7 @@ export const api = createApi({
         method: 'PATCH',
         body: {
           bitcoin_price,
+          id: 1
         }
       }),
       invalidatesTags: ['Bitcoins'],
